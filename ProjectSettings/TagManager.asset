@@ -4,11 +4,11 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - ShieldBox
   - Bullets
   - AmmoCount
   - ValidTargetHandler
   - HolySquare
+  - Linkable
   layers:
   - Default
   - TransparentFX
