@@ -9,13 +9,14 @@ public class ShootingController : MonoBehaviour
     public GameObject bullet;
     GameObject bullets;
 
-    float shootingSpeed = 20.0f;
+    float shootingSpeed = 30.0f;
     float initialOffset = 0.75f;
 
     public GameObject object1;
     public GameObject object2;
     GameLoopHandler gameLoopHandler;
     ValidTargetHandler validTargetHandler;
+    AudioSource audioSource;
 
     void Awake ()
     {
@@ -30,6 +31,7 @@ public class ShootingController : MonoBehaviour
         gameLoopHandler = GameObject.FindGameObjectWithTag("GameLoopHandler").GetComponent<GameLoopHandler>();
         validTargetHandler = GameObject.FindGameObjectWithTag("ValidTargetHandler").GetComponent<ValidTargetHandler>();
         bullets = GameObject.FindGameObjectWithTag("Bullets");
+        audioSource = transform.GetComponent<AudioSource>();
     }
 
     void Update()
@@ -64,6 +66,8 @@ public class ShootingController : MonoBehaviour
                 {
                     newBullet.GetComponent<SpriteRenderer>().color = Color.blue;
                 }
+
+                audioSource.Play();
             }
 
             if (object1 && object2)

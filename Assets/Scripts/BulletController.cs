@@ -47,6 +47,12 @@ public class BulletController : MonoBehaviour
                 }
             }
 
+            // check if TNT
+            if (hit.collider.GetComponent<TNTController>() != null)
+            {
+                hit.collider.GetComponent<TNTController>().ExplodeTNT();
+            }
+
             Destroy(gameObject);
         }
 

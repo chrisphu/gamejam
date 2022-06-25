@@ -35,4 +35,25 @@ public class ValidTargetHandler : MonoBehaviour
 
         return go;
     }
+
+    public void DestroyObjAndJoints(GameObject x)
+    {
+        foreach (DistanceJoint2D joint in x.GetComponents<DistanceJoint2D>())
+        {
+            if (joint.connectedBody != null)
+            {
+                foreach (DistanceJoint2D otherJoint in joint.connectedBody.GetComponents<DistanceJoint2D>())
+                {
+                    if (otherJoint.connectedBody == x.GetComponent<Rigidbody2D>())
+                    {
+                        Destroy(otherJoint);
+                    }
+                }
+            }
+
+            Destroy(joint);
+        }
+
+        Destroy(x);
+    }
 }
