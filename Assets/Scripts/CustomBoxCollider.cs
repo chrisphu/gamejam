@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,13 +8,15 @@ public class CustomBoxCollider : MonoBehaviour
 {
     Rigidbody2D rb;
     Vector3 positionDifference;
-    GameObject attachedObject;
     bool isAttached;
+    GameObject player;
+    GameObject attachedObject;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        player = GameObject.FindGameObjectsWithTag("Player").FirstOrDefault();
         isAttached = false;
     }
 
@@ -32,16 +36,18 @@ public class CustomBoxCollider : MonoBehaviour
 
     void LateUpdate()
     {
-        if (isAttached)
-            rb.transform.position = attachedObject.transform.position - positionDifference;
+        if (attachedObject && isAttached)
+            rb.transform.position = player.transform.position - positionDifference;
+        else
+            isAttached = false;
     }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (!isAttached && collision.rigidbody.gameObject.CompareTag("Player"))
+        if (!isAttached && (collision.rigidbody.gameObject.CompareTag("Player") || collision.rigidbody.gameObject.CompareTag("ShieldBox")))
         {
             attachedObject = collision.rigidbody.gameObject;
-            positionDifference = attachedObject.transform.position - rb.transform.position;
+            positionDifference = player.transform.position - rb.transform.position;
             isAttached = true;
         }
     }
