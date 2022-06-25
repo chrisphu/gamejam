@@ -81,6 +81,11 @@ public class ShootingController : MonoBehaviour
                 newJoint.maxDistanceOnly = true;
                 newJoint.enableCollision = true;
 
+                JointLifespanManager newManager = object1.AddComponent<JointLifespanManager>();
+                newManager.joint = newJoint;
+                newManager.lifespan = 30.0f;
+                newManager.manager = newManager;
+
                 if (object1.GetComponent<LinkVisualizer>() == null)
                 {
                     LinkVisualizer linkVisualizer = object1.AddComponent<LinkVisualizer>();
@@ -90,6 +95,11 @@ public class ShootingController : MonoBehaviour
                 DistanceJoint2D newDummyJoint = object2.AddComponent<DistanceJoint2D>();
                 newDummyJoint.connectedBody = object1.GetComponent<Rigidbody2D>();
                 newDummyJoint.enabled = false;
+
+                JointLifespanManager newDummyManager = object2.AddComponent<JointLifespanManager>();
+                newDummyManager.joint = newDummyJoint;
+                newDummyManager.lifespan = 30.0f;
+                newDummyManager.manager = newDummyManager;
             }
 
             object1 = null;

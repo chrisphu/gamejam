@@ -6,7 +6,7 @@ public class WandererController : MonoBehaviour
 {
     Rigidbody2D rb;
     GameObject player;
-    float speed = 3.0f;
+    float speed = 2.0f;
     float safety = 0.1f;
     Vector2 residualVelocity = new Vector2();
     float bounceSpeed = 3.5f;

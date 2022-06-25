@@ -9,6 +9,7 @@ TagManager:
   - ValidTargetHandler
   - HolySquare
   - Linkable
+  - Score
   layers:
   - Default
   - TransparentFX
