@@ -6,11 +6,14 @@ public class CustomBoxCollider : MonoBehaviour
 {
     Rigidbody2D rb;
     Vector3 positionDifference;
+    GameObject attachedObject;
+    bool isAttached;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        isAttached = false;
     }
 
     // Update is called once per frame
@@ -27,20 +30,19 @@ public class CustomBoxCollider : MonoBehaviour
 #endif
     }
 
-    void FixedUpdate()
+    void LateUpdate()
     {
-        if (rb.GetComponent<FixedJoint2D>().connectedBody is Rigidbody2D player)
-        {
-            rb.transform.position = player.transform.position + positionDifference;
-        }
+        if (isAttached)
+            rb.transform.position = attachedObject.transform.position - positionDifference;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.rigidbody.gameObject.CompareTag("Player"))
+        if (!isAttached && collision.rigidbody.gameObject.CompareTag("Player"))
         {
-            collision.otherRigidbody.GetComponent<FixedJoint2D>().connectedBody = collision.rigidbody;
-            positionDifference = collision.rigidbody.position = collision.otherRigidbody.position;
+            attachedObject = collision.rigidbody.gameObject;
+            positionDifference = attachedObject.transform.position - rb.transform.position;
+            isAttached = true;
         }
     }
 }
