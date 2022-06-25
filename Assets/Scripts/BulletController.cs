@@ -24,7 +24,7 @@ public class BulletController : MonoBehaviour
         RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.right, (futurePos - prevPos).magnitude);
         if (hit.collider != null && hit.transform.gameObject != player)
         {
-            //
+            Destroy(gameObject);
         }
 
         age++;
