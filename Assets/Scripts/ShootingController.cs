@@ -10,6 +10,7 @@ public class ShootingController : MonoBehaviour
     float shootingSpeed = 20.0f;
     float initialOffset = 0.75f;
 
+    /*
     AmmoTracker ammoTracker;
 
     float reloading = 0.0f;
@@ -17,6 +18,7 @@ public class ShootingController : MonoBehaviour
 
     float shooting = 1000000.0f;
     float shootingTime = 1.0f / 20.0f;
+    */
 
     void Awake ()
     {
@@ -28,12 +30,13 @@ public class ShootingController : MonoBehaviour
 
     void Start()
     {
-        ammoTracker = transform.GetComponent<AmmoTracker>();
+        //ammoTracker = transform.GetComponent<AmmoTracker>();
         bullets = GameObject.FindGameObjectWithTag("Bullets");
     }
 
     void Update()
     {
+        /*
         if (ammoTracker.ammo <= 0)
         {
             if (reloading > reloadTime)
@@ -47,14 +50,16 @@ public class ShootingController : MonoBehaviour
                 reloading += Time.deltaTime;
             }
         }
-        else // (Input.GetMouseButtonDown(0))
-        {
-            if (Input.GetMouseButton(0))
+        */
+
+        // else // (Input.GetMouseButtonDown(0))
+        // {
+            if (Input.GetMouseButtonDown(0))
             {
-                if (shooting > shootingTime)
-                {
-                    shooting = 0.0f;
-                    ammoTracker.ammo -= 1;
+                // if (shooting > shootingTime)
+                // {
+                    // shooting = 0.0f;
+                    // ammoTracker.ammo -= 1;
 
                     // calculate bullet angle
                     Vector3 screenCenter = new Vector2(Screen.width / 2.0f, Screen.height / 2.0f);
@@ -65,12 +70,12 @@ public class ShootingController : MonoBehaviour
                     GameObject newBullet = Instantiate(bullet, transform.position + new Vector3(shootingDirection.x, shootingDirection.y, 0.0f).normalized * initialOffset, Quaternion.identity, bullets.transform);
                     newBullet.transform.eulerAngles = new Vector3(0.0f, 0.0f, shootingAngle);
                     newBullet.GetComponent<BulletController>().speed = shootingSpeed;
-                }
-                else
-                {
-                    shooting += Time.deltaTime;
-                }
+                // }
+                // else
+                // {
+                //     shooting += Time.deltaTime;
+                // }
             }
-        }
+        // }
     }    
 }

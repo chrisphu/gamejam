@@ -9,6 +9,7 @@ public class BulletController : MonoBehaviour
     public float speed = 1.0f;
     public int lifespan = 100;
     int age = 0;
+    public float damage = 1.0f;
     Vector3 prevPos = new Vector3();
 
     void Awake()
@@ -24,6 +25,13 @@ public class BulletController : MonoBehaviour
         RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.right, (futurePos - prevPos).magnitude);
         if (hit.collider != null && hit.transform.gameObject != player)
         {
+            /*
+            if (hit.collider.GetComponent<HPHandler>() != null)
+            {
+                hit.collider.GetComponent<HPHandler>().TakeDamage(damage);
+            }
+            */
+
             Destroy(gameObject);
         }
 
