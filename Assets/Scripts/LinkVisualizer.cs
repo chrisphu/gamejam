@@ -8,12 +8,21 @@ public class LinkVisualizer : MonoBehaviour
 
     void LateUpdate()
     {
-        foreach (DistanceJoint2D joint in transform.GetComponents<DistanceJoint2D>())
+        DistanceJoint2D[] joints = transform.GetComponents<DistanceJoint2D>();
+
+        if (joints.Length > 0)
         {
-            if (joint.connectedBody != null)
+            foreach (DistanceJoint2D joint in joints)
             {
-                Debug.DrawLine(transform.position, joint.connectedBody.transform.position, color);
+                if (joint.connectedBody != null)
+                {
+                    Debug.DrawLine(transform.position, joint.connectedBody.transform.position, color);
+                }
             }
+        }
+        else
+        {
+            Destroy(transform.GetComponent<LinkVisualizer>());
         }
     }
 }
