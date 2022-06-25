@@ -10,6 +10,9 @@ TagManager:
   - HolySquare
   - Linkable
   - Score
+  - ShieldBox
+  - HP
+  - GameLoopHandler
   layers:
   - Default
   - TransparentFX

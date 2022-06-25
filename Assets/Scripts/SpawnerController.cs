@@ -15,10 +15,12 @@ public class SpawnerController : MonoBehaviour
     float safety = 32.0f;
     float spawnTime = 1.0f;
     float currentTime = 0.0f;
+    GameLoopHandler gameLoopHandler;
 
     // Start is called before the first frame update
     void Start()
     {
+        gameLoopHandler = GameObject.FindGameObjectWithTag("GameLoopHandler").GetComponent<GameLoopHandler>();
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         player = GameObject.FindGameObjectWithTag("Player");
         //Instantiate(spawnObject, new Vector2(), Quaternion.identity);
@@ -34,35 +36,38 @@ public class SpawnerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        UpdateScreenCorners();
-
-        currentTime += Time.fixedDeltaTime;
-
-        if (currentTime > spawnTime)
+        if (!gameLoopHandler.gameOver)
         {
-            currentTime = 0.0f;
+            UpdateScreenCorners();
 
-            int spawnSide = Random.Range(0, 3);
-            Vector2 spawnPoint = new Vector2();
+            currentTime += Time.fixedDeltaTime;
 
-            if (spawnSide == 0)
+            if (currentTime > spawnTime)
             {
-                spawnPoint = Vector2.Lerp(bottomleft, bottomright, Random.Range(0.0f, 1.0f));
-            }
-            else if (spawnSide == 1)
-            {
-                spawnPoint = Vector2.Lerp(bottomright, upperright, Random.Range(0.0f, 1.0f));
-            }
-            else if (spawnSide == 2)
-            {
-                spawnPoint = Vector2.Lerp(upperright, upperleft, Random.Range(0.0f, 1.0f));
-            }
-            else
-            {
-                spawnPoint = Vector2.Lerp(upperleft, bottomleft, Random.Range(0.0f, 1.0f));
-            }
+                currentTime = 0.0f;
 
-            Instantiate(spawnObject, spawnPoint, Quaternion.identity, transform);
+                int spawnSide = Random.Range(0, 3);
+                Vector2 spawnPoint = new Vector2();
+
+                if (spawnSide == 0)
+                {
+                    spawnPoint = Vector2.Lerp(bottomleft, bottomright, Random.Range(0.0f, 1.0f));
+                }
+                else if (spawnSide == 1)
+                {
+                    spawnPoint = Vector2.Lerp(bottomright, upperright, Random.Range(0.0f, 1.0f));
+                }
+                else if (spawnSide == 2)
+                {
+                    spawnPoint = Vector2.Lerp(upperright, upperleft, Random.Range(0.0f, 1.0f));
+                }
+                else
+                {
+                    spawnPoint = Vector2.Lerp(upperleft, bottomleft, Random.Range(0.0f, 1.0f));
+                }
+
+                Instantiate(spawnObject, spawnPoint, Quaternion.identity, transform);
+            }
         }
     }
 

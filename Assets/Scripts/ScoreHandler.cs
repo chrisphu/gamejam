@@ -10,6 +10,7 @@ public class ScoreHandler : MonoBehaviour
     float safety = 0.1f;
     TMP_Text scoreText;
     int score = 0;
+    float i = 0.0f;
 
     void Start()
     {
@@ -25,6 +26,11 @@ public class ScoreHandler : MonoBehaviour
         }
 
         scoreText.text = "Score: " + score.ToString();
+
+        // change size slightly to help make collisions happen
+        i += Time.fixedDeltaTime;
+        float scaleAdjust = Mathf.Sin(i) * 0.25f + 0.25f;
+        transform.localScale = new Vector3(5.0f + scaleAdjust, 5.0f + scaleAdjust, 1.0f);
     }
 
     void OnCollisionEnter2D(Collision2D collision)

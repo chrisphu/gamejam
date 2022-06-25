@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     Rigidbody2D rb;
     public Vector2 residualVelocity = new Vector2();
     public float bounceSpeed { get; private set; } = 3.5f;
+    GameLoopHandler gameLoopHandler;
 
     void Awake ()
     {
@@ -26,16 +27,24 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        gameLoopHandler = GameObject.FindGameObjectWithTag("GameLoopHandler").GetComponent<GameLoopHandler>();
         rb = transform.GetComponent<Rigidbody2D>();
     }
 
     void FixedUpdate()
     {
-        int hor = Convert.ToInt16(Input.GetKey(rightMove)) - Convert.ToInt32(Input.GetKey(leftMove));
-        int ver = Convert.ToInt16(Input.GetKey(upMove)) - Convert.ToInt32(Input.GetKey(downMove));
+        if (!gameLoopHandler.gameOver)
+        {
+            int hor = Convert.ToInt16(Input.GetKey(rightMove)) - Convert.ToInt32(Input.GetKey(leftMove));
+            int ver = Convert.ToInt16(Input.GetKey(upMove)) - Convert.ToInt32(Input.GetKey(downMove));
 
-        // rb.MovePosition(rb.position + new Vector2(hor, ver).normalized * speed * Time.fixedDeltaTime);
-        rb.velocity = new Vector2(hor, ver).normalized * speed * (1.0f - residualVelocity.magnitude / bounceSpeed) + residualVelocity;
-        residualVelocity = Vector2.Lerp(residualVelocity, new Vector2(), 0.9f * Time.fixedDeltaTime * 2.5f);
+            // rb.MovePosition(rb.position + new Vector2(hor, ver).normalized * speed * Time.fixedDeltaTime);
+            rb.velocity = new Vector2(hor, ver).normalized * speed * (1.0f - residualVelocity.magnitude / bounceSpeed) + residualVelocity;
+            residualVelocity = Vector2.Lerp(residualVelocity, new Vector2(), 0.9f * Time.fixedDeltaTime * 2.5f);
+        }
+        else
+        {
+            rb.velocity = new Vector2();
+        }
     }
 }
