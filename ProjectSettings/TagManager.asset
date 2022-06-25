@@ -8,6 +8,7 @@ TagManager:
   - Bullets
   - AmmoCount
   - ValidTargetHandler
+  - HolySquare
   layers:
   - Default
   - TransparentFX
