@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,7 +15,7 @@ public class CustomBoxCollider : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        player = GameObject.FindGameObjectsWithTag("Player").FirstOrDefault();
+        player = GameObject.FindGameObjectWithTag("Player");
         isAttached = false;
     }
 
