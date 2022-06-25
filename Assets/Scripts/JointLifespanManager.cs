@@ -8,7 +8,7 @@ public class JointLifespanManager : MonoBehaviour
     public JointLifespanManager manager;
     public float lifespan = 5.0f;
     float age = 0.0f;
-    float speed = 1.0f;
+    float speed = 5.0f;
 
     void FixedUpdate()
     {

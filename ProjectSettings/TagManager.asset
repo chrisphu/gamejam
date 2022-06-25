@@ -15,6 +15,7 @@ TagManager:
   - GameLoopHandler
   - Enemies
   - Splash
+  - ScoreHandler
   layers:
   - Default
   - TransparentFX

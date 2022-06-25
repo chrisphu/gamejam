@@ -9,7 +9,7 @@ public class ScoreHandler : MonoBehaviour
     GameObject player;
     float safety = 0.1f;
     TMP_Text scoreText;
-    int score = 0;
+    public int score = 0;
     float i = 0.0f;
     GameObject enemies;
     float killDistance = 3.0f;
@@ -31,6 +31,7 @@ public class ScoreHandler : MonoBehaviour
 
     void FixedUpdate()
     {
+        /*
         // pull enemies in
         foreach (DistanceJoint2D joint in transform.GetComponents<DistanceJoint2D>())
         {
@@ -76,9 +77,9 @@ public class ScoreHandler : MonoBehaviour
                     Destroy(enemy.gameObject);
                     score++;
                 }
-
             }
         }
+        */
 
         scoreText.text = "Score: " + score.ToString();
     }
