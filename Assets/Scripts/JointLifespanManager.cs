@@ -8,6 +8,7 @@ public class JointLifespanManager : MonoBehaviour
     public JointLifespanManager manager;
     public float lifespan = 5.0f;
     float age = 0.0f;
+    float speed = 1.0f;
 
     void FixedUpdate()
     {
@@ -22,6 +23,13 @@ public class JointLifespanManager : MonoBehaviour
         }
         else
         {
+            if (joint != null)
+            {
+                if (!joint.CompareTag("HolySquare") && !joint.connectedBody.CompareTag("HolySquare"))
+                {
+                    joint.distance -= speed * Time.fixedDeltaTime;
+                }
+            }
             age += Time.fixedDeltaTime;
         }
     }

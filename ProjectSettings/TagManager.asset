@@ -13,6 +13,7 @@ TagManager:
   - ShieldBox
   - HP
   - GameLoopHandler
+  - Enemies
   layers:
   - Default
   - TransparentFX

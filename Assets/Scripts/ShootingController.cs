@@ -84,6 +84,8 @@ public class ShootingController : MonoBehaviour
                     newJoint.connectedBody = object2.GetComponent<Rigidbody2D>();
                     newJoint.maxDistanceOnly = true;
                     newJoint.enableCollision = true;
+                    newJoint.autoConfigureDistance = false;
+                    newJoint.distance = (object1.transform.position - object2.transform.position).magnitude;
 
                     JointLifespanManager newManager = object1.AddComponent<JointLifespanManager>();
                     newManager.joint = newJoint;
