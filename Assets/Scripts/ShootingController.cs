@@ -75,13 +75,16 @@ public class ShootingController : MonoBehaviour
                     object1 = object2;
                     object2 = tempObject;
                 }
-                
+
                 DistanceJoint2D newJoint = object1.AddComponent<DistanceJoint2D>();
                 newJoint.connectedBody = object2.GetComponent<Rigidbody2D>();
                 newJoint.maxDistanceOnly = true;
                 newJoint.enableCollision = true;
 
-                LinkVisualizer linkVisualizer = object1.AddComponent<LinkVisualizer>();
+                if (object1.GetComponent<LinkVisualizer>() == null)
+                {
+                    LinkVisualizer linkVisualizer = object1.AddComponent<LinkVisualizer>();
+                }
 
                 // dummy joint for counting connections
                 DistanceJoint2D newDummyJoint = object2.AddComponent<DistanceJoint2D>();
