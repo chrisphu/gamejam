@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Bullets
   - AmmoCount
+  - ValidTargetHandler
+  - HolySquare
   - Linkable
   layers:
   - Default
