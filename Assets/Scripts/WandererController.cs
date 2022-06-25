@@ -63,7 +63,7 @@ public class WandererController : MonoBehaviour
             playerRb.MovePosition(playerRb.position + towardsPlayer * safety);
             playerController.residualVelocity = towardsPlayer * playerController.bounceSpeed;
 
-            gameLoopHandler.hp -= 1;
+            gameLoopHandler.TakeDamage();
         }
     }
 }

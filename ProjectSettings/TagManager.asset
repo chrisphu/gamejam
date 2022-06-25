@@ -14,6 +14,7 @@ TagManager:
   - HP
   - GameLoopHandler
   - Enemies
+  - Splash
   layers:
   - Default
   - TransparentFX
