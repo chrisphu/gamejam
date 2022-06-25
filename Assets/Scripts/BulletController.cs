@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class BulletController : MonoBehaviour
 {
+    public ShootingController shootingController;
+    public int objectToFind = 1;
     GameObject player;
 
     public float speed = 1.0f;
@@ -12,8 +14,13 @@ public class BulletController : MonoBehaviour
     public float damage = 1.0f;
     Vector3 prevPos = new Vector3();
 
+    SpriteRenderer sr;
+    ValidTargetHandler validTargetHandler;
+
     void Awake()
     {
+        sr = transform.GetComponent<SpriteRenderer>();
+        validTargetHandler = GameObject.FindGameObjectWithTag("ValidTargetHandler").GetComponent<ValidTargetHandler>();
         player = GameObject.FindGameObjectWithTag("Player");
         prevPos = transform.position;
     }
@@ -23,20 +30,27 @@ public class BulletController : MonoBehaviour
         Vector3 futurePos = transform.position + transform.right * speed * Time.fixedDeltaTime;
 
         RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.right, (futurePos - prevPos).magnitude);
+
         if (hit.collider != null && hit.transform.gameObject != player)
         {
-            /*
-            if (hit.collider.GetComponent<HPHandler>() != null)
+            if (shootingController.object1 == null)
             {
-                hit.collider.GetComponent<HPHandler>().TakeDamage(damage);
+                shootingController.object1 = hit.collider.gameObject;
             }
-            */
+            else if (shootingController.object2 == null)
+            {
+                if (validTargetHandler.CheckIfTargetValue(shootingController.object1, hit.collider.gameObject))
+                {
+                    shootingController.object2 = hit.collider.gameObject;
+                }
+            }
 
             Destroy(gameObject);
         }
 
+        // early destruction conditions
         age++;
-        if (age > lifespan)
+        if (age > lifespan || !sr.isVisible)
         {
             Destroy(gameObject);
         }

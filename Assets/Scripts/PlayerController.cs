@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
 
     Rigidbody2D rb;
     public Vector2 residualVelocity = new Vector2();
-    public float bounceSpeed { get; private set; } = 2.5f;
+    public float bounceSpeed { get; private set; } = 3.5f;
 
     void Awake ()
     {

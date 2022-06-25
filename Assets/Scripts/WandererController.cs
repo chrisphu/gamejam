@@ -9,7 +9,7 @@ public class WandererController : MonoBehaviour
     float speed = 3.0f;
     float safety = 0.1f;
     Vector2 residualVelocity = new Vector2();
-    float bounceSpeed = 2.5f;
+    float bounceSpeed = 3.5f;
 
     void Awake ()
     {

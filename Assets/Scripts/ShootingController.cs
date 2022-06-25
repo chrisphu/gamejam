@@ -4,21 +4,17 @@ using UnityEngine;
 
 public class ShootingController : MonoBehaviour
 {
+    KeyCode resetObject1 = KeyCode.R;
+
     public GameObject bullet;
     GameObject bullets;
 
     float shootingSpeed = 20.0f;
     float initialOffset = 0.75f;
 
-    /*
-    AmmoTracker ammoTracker;
-
-    float reloading = 0.0f;
-    float reloadTime = 2.0f;
-
-    float shooting = 1000000.0f;
-    float shootingTime = 1.0f / 20.0f;
-    */
+    public GameObject object1;
+    public GameObject object2;
+    ValidTargetHandler validTargetHandler;
 
     void Awake ()
     {
@@ -30,52 +26,71 @@ public class ShootingController : MonoBehaviour
 
     void Start()
     {
-        //ammoTracker = transform.GetComponent<AmmoTracker>();
+        validTargetHandler = GameObject.FindGameObjectWithTag("ValidTargetHandler").GetComponent<ValidTargetHandler>();
         bullets = GameObject.FindGameObjectWithTag("Bullets");
     }
 
     void Update()
     {
-        /*
-        if (ammoTracker.ammo <= 0)
+        if (Input.GetKeyDown(resetObject1))
         {
-            if (reloading > reloadTime)
+            object1 = null;
+            object2 = null;
+        }
+
+        if (Input.GetMouseButtonDown(0) && bullets.transform.childCount < 1)
+        {
+            // calculate bullet angle
+            Vector3 screenCenter = new Vector2(Screen.width / 2.0f, Screen.height / 2.0f);
+            Vector2 shootingDirection = (Input.mousePosition - screenCenter).normalized;
+            float shootingAngle = Vector2.SignedAngle(Vector2.right, shootingDirection);
+
+            // spawn new bullet
+            GameObject newBullet = Instantiate(bullet, transform.position + new Vector3(shootingDirection.x, shootingDirection.y, 0.0f).normalized * initialOffset, Quaternion.identity, bullets.transform);
+            newBullet.transform.eulerAngles = new Vector3(0.0f, 0.0f, shootingAngle);
+            newBullet.GetComponent<BulletController>().speed = shootingSpeed;
+            newBullet.GetComponent<BulletController>().shootingController = transform.GetComponent<ShootingController>();
+
+            // change bullet color depending on current object
+            if (object1 == null)
             {
-                ammoTracker.ammo = ammoTracker.maxAmmo;
-                shooting = 1000000.0f;
-                reloading = 0.0f;
+                newBullet.GetComponent<SpriteRenderer>().color = Color.red;
             }
             else
             {
-                reloading += Time.deltaTime;
+                newBullet.GetComponent<SpriteRenderer>().color = Color.blue;
             }
         }
-        */
 
-        // else // (Input.GetMouseButtonDown(0))
-        // {
-            if (Input.GetMouseButtonDown(0))
+        if (object1 && object2)
+        {
+            transform.GetComponent<DistanceJoint2D>().connectedBody = null;
+
+            if (validTargetHandler.CheckIfTargetValue(object1, object2))
             {
-                // if (shooting > shootingTime)
-                // {
-                    // shooting = 0.0f;
-                    // ammoTracker.ammo -= 1;
+                DistanceJoint2D newJoint = object1.AddComponent<DistanceJoint2D>();
+                newJoint.connectedBody = object2.GetComponent<Rigidbody2D>();
+                newJoint.maxDistanceOnly = true;
+                newJoint.enableCollision = true;
 
-                    // calculate bullet angle
-                    Vector3 screenCenter = new Vector2(Screen.width / 2.0f, Screen.height / 2.0f);
-                    Vector2 shootingDirection = (Input.mousePosition - screenCenter).normalized;
-                    float shootingAngle = Vector2.SignedAngle(Vector2.right, shootingDirection);
+                LinkVisualizer linkVisualizer = object1.AddComponent<LinkVisualizer>();
 
-                    // spawn new bullet
-                    GameObject newBullet = Instantiate(bullet, transform.position + new Vector3(shootingDirection.x, shootingDirection.y, 0.0f).normalized * initialOffset, Quaternion.identity, bullets.transform);
-                    newBullet.transform.eulerAngles = new Vector3(0.0f, 0.0f, shootingAngle);
-                    newBullet.GetComponent<BulletController>().speed = shootingSpeed;
-                // }
-                // else
-                // {
-                //     shooting += Time.deltaTime;
-                // }
+                // dummy joint for counting connections
+                DistanceJoint2D newDummyJoint = object2.AddComponent<DistanceJoint2D>();
+                newDummyJoint.connectedBody = object1.GetComponent<Rigidbody2D>();
+                newDummyJoint.enabled = false;
             }
-        // }
-    }    
+
+            object1 = null;
+            object2 = null;
+        }
+        else if (object1 && !object2)
+        {
+            transform.GetComponent<DistanceJoint2D>().connectedBody = object1.GetComponent<Rigidbody2D>();
+        }
+        else
+        {
+            transform.GetComponent<DistanceJoint2D>().connectedBody = null;
+        }
+    }
 }
