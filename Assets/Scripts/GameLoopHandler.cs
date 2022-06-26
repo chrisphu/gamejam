@@ -45,7 +45,10 @@ public class GameLoopHandler : MonoBehaviour
 
     public void TakeDamage()
     {
-        hp -= 1;
-        splash.color = new Color(0.6f, 0.0f, 0.0f, 0.8f);
+        if (!gameOver)
+        {
+            hp -= 1;
+            splash.color = new Color(0.6f, 0.0f, 0.0f, 0.8f);
+        }
     }
 }

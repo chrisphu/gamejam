@@ -96,10 +96,12 @@ public class ShootingController : MonoBehaviour
                     newManager.lifespan = 30.0f;
                     newManager.manager = newManager;
 
+                    /*
                     if (object1.GetComponent<LinkVisualizer>() == null)
                     {
                         LinkVisualizer linkVisualizer = object1.AddComponent<LinkVisualizer>();
                     }
+                    */
 
                     // dummy joint for counting connections
                     DistanceJoint2D newDummyJoint = object2.AddComponent<DistanceJoint2D>();
@@ -123,10 +125,6 @@ public class ShootingController : MonoBehaviour
             {
                 transform.GetComponent<DistanceJoint2D>().connectedBody = null;
             }
-        }
-        else
-        {
-            //
         }
     }
 }
