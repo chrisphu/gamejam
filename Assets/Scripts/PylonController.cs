@@ -21,6 +21,7 @@ public class PylonController : MonoBehaviour
             foreach (var joint in gameObject.GetComponents<DistanceJoint2D>())
                 Destroy(joint);
             connections = new GameObject[512];
+            Destroy(gameObject);
         }
     }
 
