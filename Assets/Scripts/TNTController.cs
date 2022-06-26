@@ -11,7 +11,7 @@ public class TNTController : MonoBehaviour
     SpriteRenderer sr;
     ValidTargetHandler validTargetHandler;
     GameObject enemies;
-    float killRadius = 2.5f;
+    float killRadius = 5.0f * 1.25f / 2.0f;
     ScoreHandler scoreHandler;
     bool exploded = false;
     SpriteRenderer flash;
@@ -29,7 +29,10 @@ public class TNTController : MonoBehaviour
         validTargetHandler = GameObject.FindGameObjectWithTag("ValidTargetHandler").GetComponent<ValidTargetHandler>();
         enemies = GameObject.FindGameObjectWithTag("Enemies");
         scoreHandler = GameObject.FindGameObjectWithTag("ScoreHandler").GetComponent<ScoreHandler>();
+
         flash = transform.GetChild(0).GetComponent<SpriteRenderer>();
+        flash.transform.localScale = new Vector3(killRadius * 2.0f, killRadius * 2.0f, 1.0f);
+
         explosionSound = transform.GetComponent<AudioSource>();
         sizzleSound = transform.GetChild(1).GetComponent<AudioSource>();
     }

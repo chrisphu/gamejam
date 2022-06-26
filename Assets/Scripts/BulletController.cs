@@ -11,7 +11,7 @@ public class BulletController : MonoBehaviour
     public float speed = 1.0f;
     public int lifespan = 100;
     int age = 0;
-    float offscreenLifespan = 0.5f;
+    float offscreenLifespan = 0.05f;
     float offscreenAge = 0.0f;
     public float damage = 1.0f;
     Vector3 prevPos = new Vector3();
@@ -21,6 +21,11 @@ public class BulletController : MonoBehaviour
 
     void Awake()
     {
+        #if UNITY_EDITOR
+            QualitySettings.vSyncCount = 0;  // VSync must be disabled
+            Application.targetFrameRate = 60;
+        #endif
+
         sr = transform.GetComponent<SpriteRenderer>();
         validTargetHandler = GameObject.FindGameObjectWithTag("ValidTargetHandler").GetComponent<ValidTargetHandler>();
         player = GameObject.FindGameObjectWithTag("Player");
@@ -33,7 +38,7 @@ public class BulletController : MonoBehaviour
 
         RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.right, (futurePos - prevPos).magnitude);
 
-        if (hit.collider != null && hit.transform.gameObject != player)
+        if (hit.collider != null && !hit.transform.CompareTag("Player") && !hit.transform.CompareTag("Wall"))
         {
             if (shootingController.object1 == null)
             {
@@ -56,14 +61,17 @@ public class BulletController : MonoBehaviour
             Destroy(gameObject);
         }
 
+        /*
         if (!sr.isVisible)
         {
             offscreenAge += Time.fixedDeltaTime;
         }
+        */
 
         // early destruction conditions
         age++;
-        if (age > lifespan || offscreenAge > offscreenLifespan)
+
+        if (age > lifespan || !sr.isVisible) // || offscreenAge > offscreenLifespan)
         {
             Destroy(gameObject);
         }

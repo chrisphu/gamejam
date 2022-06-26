@@ -16,12 +16,13 @@ public class PlayerController : MonoBehaviour
     public Vector2 residualVelocity = new Vector2();
     public float bounceSpeed { get; private set; } = 3.5f;
     GameLoopHandler gameLoopHandler;
+    SpriteRenderer sr;
 
     void Awake ()
     {
         #if UNITY_EDITOR
             QualitySettings.vSyncCount = 0;  // VSync must be disabled
-            Application.targetFrameRate = 45;
+            Application.targetFrameRate = 60;
         #endif
     }
 
@@ -29,6 +30,7 @@ public class PlayerController : MonoBehaviour
     {
         gameLoopHandler = GameObject.FindGameObjectWithTag("GameLoopHandler").GetComponent<GameLoopHandler>();
         rb = transform.GetComponent<Rigidbody2D>();
+        sr = transform.GetComponent<SpriteRenderer>();
     }
 
     void FixedUpdate()
@@ -41,6 +43,9 @@ public class PlayerController : MonoBehaviour
             // rb.MovePosition(rb.position + new Vector2(hor, ver).normalized * speed * Time.fixedDeltaTime);
             rb.velocity = new Vector2(hor, ver).normalized * speed * (1.0f - residualVelocity.magnitude / bounceSpeed) + residualVelocity;
             residualVelocity = Vector2.Lerp(residualVelocity, new Vector2(), 0.9f * Time.fixedDeltaTime * 2.5f);
+
+            // flip player based on mouse position
+            sr.flipX = (Input.mousePosition.x < Screen.width / 2.0f);
         }
         else
         {

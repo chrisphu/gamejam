@@ -22,7 +22,7 @@ public class ShootingController : MonoBehaviour
     {
         #if UNITY_EDITOR
             QualitySettings.vSyncCount = 0;  // VSync must be disabled
-            Application.targetFrameRate = 45;
+            Application.targetFrameRate = 60;
         #endif
     }
 
@@ -57,16 +57,6 @@ public class ShootingController : MonoBehaviour
                 newBullet.GetComponent<BulletController>().speed = shootingSpeed;
                 newBullet.GetComponent<BulletController>().shootingController = transform.GetComponent<ShootingController>();
 
-                // change bullet color depending on current object
-                if (object1 == null)
-                {
-                    newBullet.GetComponent<SpriteRenderer>().color = Color.red;
-                }
-                else
-                {
-                    newBullet.GetComponent<SpriteRenderer>().color = Color.blue;
-                }
-
                 audioSource.Play();
             }
 
@@ -95,13 +85,6 @@ public class ShootingController : MonoBehaviour
                     newManager.joint = newJoint;
                     newManager.lifespan = 30.0f;
                     newManager.manager = newManager;
-
-                    /*
-                    if (object1.GetComponent<LinkVisualizer>() == null)
-                    {
-                        LinkVisualizer linkVisualizer = object1.AddComponent<LinkVisualizer>();
-                    }
-                    */
 
                     // dummy joint for counting connections
                     DistanceJoint2D newDummyJoint = object2.AddComponent<DistanceJoint2D>();
