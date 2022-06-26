@@ -41,7 +41,7 @@ public class GameLoopHandler : MonoBehaviour
     {
         splash.color = new Color(splash.color.r, splash.color.g, splash.color.b, Mathf.Lerp(splash.color.a, 0.0f, 0.9f * Time.deltaTime * 10.0f));
 
-        hpText.text = "HP: " + hp.ToString();
+        hpText.text = "HP: " + hp.ToString() + " / 3";
 
         if (hp <= 0)
         {

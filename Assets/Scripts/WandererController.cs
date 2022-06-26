@@ -9,15 +9,17 @@ public class WandererController : MonoBehaviour
     float speed = 2.0f;
     float safety = 0.1f;
     Vector2 residualVelocity = new Vector2();
-    float bounceSpeed = 3.5f;
+    float bounceSpeed = 5.0f;
     GameLoopHandler gameLoopHandler;
     SpriteRenderer sr;
+    public bool externalControl = false;
+    float maxColorDifference = 90.0f;
 
     void Awake ()
     {
         #if UNITY_EDITOR
             QualitySettings.vSyncCount = 0;  // VSync must be disabled
-            Application.targetFrameRate = 45;
+            Application.targetFrameRate = 60;
         #endif
     }
 
@@ -27,19 +29,28 @@ public class WandererController : MonoBehaviour
         rb = transform.GetComponent<Rigidbody2D>();
         player = GameObject.FindGameObjectWithTag("Player");
         sr = transform.GetComponent<SpriteRenderer>();
+
+        // randomize color slightly
+        sr.color = new Color(
+            (255.0f + Random.Range(-maxColorDifference, 0.0f)) / 255.0f,
+            (255.0f + Random.Range(-maxColorDifference, 0.0f)) / 255.0f,
+            (255.0f + Random.Range(-maxColorDifference, 0.0f)) / 255.0f,
+            1.0f);
     }
 
     void FixedUpdate()
     {
         if (!gameLoopHandler.gameOver)
         {
-            Vector2 towardsPlayer = (player.transform.position - transform.position).normalized;
-            
-            // rb.MovePosition(rb.position + towardsPlayer * speed * Time.fixedDeltaTime);
-            rb.velocity = towardsPlayer * speed * (1.0f - residualVelocity.magnitude / bounceSpeed) + residualVelocity;
-            residualVelocity = Vector2.Lerp(residualVelocity, new Vector2(), 0.9f * Time.fixedDeltaTime * 2.5f);
+            if (!externalControl)
+            {
+                Vector2 towardsPlayer = (player.transform.position - transform.position).normalized;
+                
+                rb.velocity = towardsPlayer * speed * (1.0f - residualVelocity.magnitude / bounceSpeed) + residualVelocity;
+                residualVelocity = Vector2.Lerp(residualVelocity, new Vector2(), 0.9f * Time.fixedDeltaTime * 2.5f);
 
-            sr.flipX = (rb.velocity.x < 0.0f);
+                sr.flipX = (rb.velocity.x < 0.0f);
+            }
         }
         else
         {
