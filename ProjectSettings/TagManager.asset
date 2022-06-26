@@ -24,6 +24,9 @@ TagManager:
   - Timer
   - GameOverCanvas
   - Retry
+  - StartPanel
+  - QuitPanel
+  - AudioHandler
   - Pylon
   layers:
   - Default
