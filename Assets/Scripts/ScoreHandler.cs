@@ -1,40 +1,86 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class ScoreHandler : MonoBehaviour
 {
-    float speed = 1.0f;
+    float speed = 4.0f;
+    GameObject player;
+    float safety = 0.1f;
+    TMP_Text scoreText;
+    public int score = 0;
+    float i = 0.0f;
+    GameObject enemies;
+    float killDistance = 3.0f;
+
+    void Awake ()
+    {
+        #if UNITY_EDITOR
+            QualitySettings.vSyncCount = 0;  // VSync must be disabled
+            Application.targetFrameRate = 45;
+        #endif
+    }
+
+    void Start()
+    {
+        player = GameObject.FindGameObjectWithTag("Player");
+        scoreText = GameObject.FindGameObjectWithTag("Score").GetComponent<TMP_Text>();
+        enemies = GameObject.FindGameObjectWithTag("Enemies");
+    }
 
     void FixedUpdate()
     {
+        /*
+        // pull enemies in
         foreach (DistanceJoint2D joint in transform.GetComponents<DistanceJoint2D>())
         {
             joint.distance -= speed * Time.fixedDeltaTime;
         }
-    }
 
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (!collision.collider.CompareTag("Player"))
+        // destroy enemies (and their joints) if they get too close *and* are jointed
+        foreach (Transform enemy in enemies.GetComponentsInChildren<Transform>())
         {
-            foreach (DistanceJoint2D joint in collision.collider.GetComponents<DistanceJoint2D>())
+            float distance = (enemy.transform.position - transform.position).magnitude;
+
+            if (distance <= killDistance)
             {
-                if (joint.connectedBody != null)
+                bool go = false;
+
+                foreach (DistanceJoint2D joint in transform.GetComponents<DistanceJoint2D>())
                 {
-                    foreach (DistanceJoint2D otherJoint in joint.connectedBody.GetComponents<DistanceJoint2D>())
+                    if (joint.connectedBody == enemy.GetComponent<Rigidbody2D>())
                     {
-                        if (otherJoint.connectedBody == collision.collider.GetComponent<Rigidbody2D>())
-                        {
-                            Destroy(otherJoint);
-                        }
+                        go = true;
+                        break;
                     }
                 }
 
-                Destroy(joint);
-            }
+                if (go)
+                {
+                    foreach (DistanceJoint2D joint in enemy.GetComponents<DistanceJoint2D>())
+                    {
+                        if (joint.connectedBody != null)
+                        {
+                            foreach (DistanceJoint2D otherJoint in joint.connectedBody.GetComponents<DistanceJoint2D>())
+                            {
+                                if (otherJoint.connectedBody == enemy.GetComponent<Rigidbody2D>())
+                                {
+                                    Destroy(otherJoint);
+                                }
+                            }
+                        }
 
-            Destroy(collision.collider.gameObject);
+                        Destroy(joint);
+                    }
+
+                    Destroy(enemy.gameObject);
+                    score++;
+                }
+            }
         }
+        */
+
+        scoreText.text = "Score: " + score.ToString();
     }
 }

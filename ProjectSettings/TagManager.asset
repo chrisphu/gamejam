@@ -9,6 +9,14 @@ TagManager:
   - ValidTargetHandler
   - HolySquare
   - Linkable
+  - Score
+  - ShieldBox
+  - HP
+  - GameLoopHandler
+  - Enemies
+  - Splash
+  - ScoreHandler
+  - Tools
   layers:
   - Default
   - TransparentFX

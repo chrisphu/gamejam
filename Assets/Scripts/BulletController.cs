@@ -11,6 +11,8 @@ public class BulletController : MonoBehaviour
     public float speed = 1.0f;
     public int lifespan = 100;
     int age = 0;
+    float offscreenLifespan = 0.5f;
+    float offscreenAge = 0.0f;
     public float damage = 1.0f;
     Vector3 prevPos = new Vector3();
 
@@ -45,12 +47,23 @@ public class BulletController : MonoBehaviour
                 }
             }
 
+            // check if TNT
+            if (hit.collider.GetComponent<TNTController>() != null)
+            {
+                hit.collider.GetComponent<TNTController>().ExplodeTNT();
+            }
+
             Destroy(gameObject);
+        }
+
+        if (!sr.isVisible)
+        {
+            offscreenAge += Time.fixedDeltaTime;
         }
 
         // early destruction conditions
         age++;
-        if (age > lifespan || !sr.isVisible)
+        if (age > lifespan || offscreenAge > offscreenLifespan)
         {
             Destroy(gameObject);
         }
