@@ -17,7 +17,7 @@ public class EnemySpawnController : MonoBehaviour
     void Start()
     {
         rb = gameObject.GetComponent<Rigidbody2D>();
-        pointOfRotation = FindObjectsOfType<GameObject>().Where(x => x.name == "HolySquare").FirstOrDefault();
+        //pointOfRotation = FindObjectsOfType<GameObject>().Where(x => x.name == "HolySquare").FirstOrDefault();
         currentTime = 0.0f;
         spawnTime = 5.0f;
         isKinematic = true;
@@ -36,13 +36,13 @@ public class EnemySpawnController : MonoBehaviour
             currentTime = 0.0f;
 
             spawnPoint = new Vector2(transform.position.x + 1, transform.position.y + 1);
-            Instantiate(spawnObject, spawnPoint, Quaternion.identity, FindObjectsOfType<GameObject>().Where(x => x.CompareTag("Enemies")).FirstOrDefault().transform);
+            Instantiate(spawnObject, spawnPoint, Quaternion.identity, GameObject.Find("Enemies").transform);
             spawnPoint = new Vector2(transform.position.x + 1, transform.position.y - 1);
-            Instantiate(spawnObject, spawnPoint, Quaternion.identity, FindObjectsOfType<GameObject>().Where(x => x.CompareTag("Enemies")).FirstOrDefault().transform);
+            Instantiate(spawnObject, spawnPoint, Quaternion.identity, GameObject.Find("Enemies").transform);
             spawnPoint = new Vector2(transform.position.x - 1, transform.position.y + 1);
-            Instantiate(spawnObject, spawnPoint, Quaternion.identity, FindObjectsOfType<GameObject>().Where(x => x.CompareTag("Enemies")).FirstOrDefault().transform);
+            Instantiate(spawnObject, spawnPoint, Quaternion.identity, GameObject.Find("Enemies").transform);
             spawnPoint = new Vector2(transform.position.x - 1, transform.position.y - 1);
-            Instantiate(spawnObject, spawnPoint, Quaternion.identity, FindObjectsOfType<GameObject>().Where(x => x.CompareTag("Enemies")).FirstOrDefault().transform);
+            Instantiate(spawnObject, spawnPoint, Quaternion.identity, GameObject.Find("Enemies").transform);
         }
         if (gameObject.GetComponent<Joint2D>() && isKinematic)
         {

@@ -16,6 +16,7 @@ TagManager:
   - Enemies
   - Splash
   - ScoreHandler
+  - Tools
   layers:
   - Default
   - TransparentFX
