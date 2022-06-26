@@ -12,6 +12,9 @@ public class GameLoopHandler : MonoBehaviour
     public int hp = 3;
     Image splash;
     AudioSource audioSource;
+    GameObject gameOverScreen;
+    Image[] gameOverImageComponents;
+    TextMeshProUGUI[] textMeshProUguiComponents;
 
     void Awake ()
     {
@@ -27,6 +30,10 @@ public class GameLoopHandler : MonoBehaviour
         hpText = GameObject.FindGameObjectWithTag("HP").GetComponent<TMP_Text>();
         splash = GameObject.FindGameObjectWithTag("Splash").GetComponent<Image>();
         audioSource = transform.GetComponent<AudioSource>();
+        gameOverScreen = GameObject.Find("GameOver");
+        gameOverImageComponents = gameOverScreen.GetComponentsInChildren<Image>();
+        textMeshProUguiComponents = gameOverScreen.GetComponentsInChildren<TextMeshProUGUI>();
+        gameOverScreen.SetActive(false);
         // audioSource.Play();
     }
     
@@ -43,12 +50,38 @@ public class GameLoopHandler : MonoBehaviour
         }
     }
 
+    void FixedUpdate()
+    {
+        if (gameOver)
+        {
+            gameOverScreen.SetActive(true);
+            for (float i = 0.000f; i < 1.0f; i += Time.fixedDeltaTime / 100)
+            {
+                StartCoroutine(IncreaseAlpha(i));
+            }
+        }
+    }
+
     public void TakeDamage()
     {
         if (!gameOver)
         {
             hp -= 1;
             splash.color = new Color(0.6f, 0.0f, 0.0f, 0.8f);
+        }
+    }
+
+    IEnumerator IncreaseAlpha(float alpha)
+    {
+        foreach (var component in gameOverImageComponents)
+        {
+            component.color = new Color(component.color.r, component.color.g, component.color.b, alpha);
+            yield return null;
+        }
+        foreach (var component in textMeshProUguiComponents)
+        {
+            component.color = new Color(component.color.r, component.color.g, component.color.b, alpha);
+            yield return null;
         }
     }
 }
