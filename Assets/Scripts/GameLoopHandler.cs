@@ -12,15 +12,30 @@ public class GameLoopHandler : MonoBehaviour
     public int hp = 3;
     Image splash;
     AudioSource audioSource;
+
+
+    /*
     GameObject gameOverScreen;
     Image[] gameOverImageComponents;
     TextMeshProUGUI[] textMeshProUguiComponents;
+    */
+
+    CanvasGroup gameOverCanvas;
+
+    TMP_Text gameTimerText;
+    public float gameTime { get; private set; } = 0.0f;
+    public float maxDifficulty { get; private set; } = 3.0f * 60.0f;
+
+    float timePostGameOver = 0.0f;
+    float delayPostGameOver = 1.0f;
+    float fadeInLifespan = 1.0f;
+    float fadeInAge = 0.0f;
 
     void Awake ()
     {
         #if UNITY_EDITOR
             QualitySettings.vSyncCount = 0;  // VSync must be disabled
-            Application.targetFrameRate = 45;
+            Application.targetFrameRate = 60;
         #endif
     }
 
@@ -28,12 +43,19 @@ public class GameLoopHandler : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player");
         hpText = GameObject.FindGameObjectWithTag("HP").GetComponent<TMP_Text>();
+        gameTimerText = GameObject.FindGameObjectWithTag("Timer").GetComponent<TMP_Text>();
         splash = GameObject.FindGameObjectWithTag("Splash").GetComponent<Image>();
         audioSource = transform.GetComponent<AudioSource>();
+        
+        /*
         gameOverScreen = GameObject.Find("GameOver");
         gameOverImageComponents = gameOverScreen.GetComponentsInChildren<Image>();
         textMeshProUguiComponents = gameOverScreen.GetComponentsInChildren<TextMeshProUGUI>();
         gameOverScreen.SetActive(false);
+        */
+
+        gameOverCanvas = GameObject.FindGameObjectWithTag("GameOverCanvas").GetComponent<CanvasGroup>();
+
         // audioSource.Play();
     }
     
@@ -48,8 +70,35 @@ public class GameLoopHandler : MonoBehaviour
             hp = 0;
             gameOver = true;
         }
+
+        if (!gameOver)
+        {
+            gameTime += Time.deltaTime;
+        }
+
+        float milliseconds =  Mathf.Floor((gameTime % 1.0f) * 1000.0f);
+        float seconds = Mathf.Floor(gameTime % 60.0f);
+        float minutes = Mathf.Floor(gameTime / 60.0f);
+
+        gameTimerText.text = minutes.ToString() + ":" + seconds.ToString("00") + ":" + milliseconds.ToString("0000");
+
+        if (gameOver)
+        {
+            gameOverCanvas.interactable = true;
+
+            if (timePostGameOver > delayPostGameOver)
+            {
+                fadeInAge += Time.deltaTime;
+                gameOverCanvas.alpha = Mathf.Lerp(0.0f, 1.0f, Mathf.Clamp(fadeInAge / fadeInLifespan, 0.0f, 1.0f));
+            }
+            else
+            {
+                timePostGameOver += Time.deltaTime;
+            }
+        }
     }
 
+    /*
     void FixedUpdate()
     {
         if (gameOver)
@@ -61,6 +110,7 @@ public class GameLoopHandler : MonoBehaviour
             }
         }
     }
+    */
 
     public void TakeDamage()
     {
@@ -71,6 +121,7 @@ public class GameLoopHandler : MonoBehaviour
         }
     }
 
+    /*
     IEnumerator IncreaseAlpha(float alpha)
     {
         foreach (var component in gameOverImageComponents)
@@ -84,4 +135,5 @@ public class GameLoopHandler : MonoBehaviour
             yield return null;
         }
     }
+    */
 }
