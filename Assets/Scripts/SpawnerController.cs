@@ -58,8 +58,6 @@ public class SpawnerController : MonoBehaviour
         {
             UpdateScreenCorners();
 
-            gameTime += Time.fixedDeltaTime;
-
             InterpolateSpawnTimes();
 
             for (int i = 0; i < currentTimes.Length; i++)
@@ -134,7 +132,7 @@ public class SpawnerController : MonoBehaviour
     {
         for (int i = 0; i < iterSpawnTimes.Length; i++)
         {
-            iterSpawnTimes[i] = Mathf.Lerp(startSpawnTimes[i], endSpawnTimes[i], Mathf.Clamp(gameTime / maxDifficulty, 0.0f, 1.0f));
+            iterSpawnTimes[i] = Mathf.Lerp(startSpawnTimes[i], endSpawnTimes[i], Mathf.Clamp(gameLoopHandler.gameTime / gameLoopHandler.maxDifficulty, 0.0f, 1.0f));
         }
     }
 }
