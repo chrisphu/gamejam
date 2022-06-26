@@ -17,6 +17,8 @@ TagManager:
   - Splash
   - ScoreHandler
   - Tools
+  - Start
+  - Quit
   layers:
   - Default
   - TransparentFX
