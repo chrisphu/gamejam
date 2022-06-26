@@ -13,11 +13,29 @@ public class GameLoopHandler : MonoBehaviour
     Image splash;
     AudioSource audioSource;
 
+
+    /*
+    GameObject gameOverScreen;
+    Image[] gameOverImageComponents;
+    TextMeshProUGUI[] textMeshProUguiComponents;
+    */
+
+    CanvasGroup gameOverCanvas;
+
+    TMP_Text gameTimerText;
+    public float gameTime { get; private set; } = 0.0f;
+    public float maxDifficulty { get; private set; } = 3.0f * 60.0f;
+
+    float timePostGameOver = 0.0f;
+    float delayPostGameOver = 1.0f;
+    float fadeInLifespan = 1.0f;
+    float fadeInAge = 0.0f;
+
     void Awake ()
     {
         #if UNITY_EDITOR
             QualitySettings.vSyncCount = 0;  // VSync must be disabled
-            Application.targetFrameRate = 45;
+            Application.targetFrameRate = 60;
         #endif
     }
 
@@ -25,8 +43,21 @@ public class GameLoopHandler : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player");
         hpText = GameObject.FindGameObjectWithTag("HP").GetComponent<TMP_Text>();
+        gameTimerText = GameObject.FindGameObjectWithTag("Timer").GetComponent<TMP_Text>();
         splash = GameObject.FindGameObjectWithTag("Splash").GetComponent<Image>();
         audioSource = transform.GetComponent<AudioSource>();
+        
+        /*
+        gameOverScreen = GameObject.Find("GameOver");
+        gameOverImageComponents = gameOverScreen.GetComponentsInChildren<Image>();
+        textMeshProUguiComponents = gameOverScreen.GetComponentsInChildren<TextMeshProUGUI>();
+        gameOverScreen.SetActive(false);
+        */
+
+        gameOverCanvas = GameObject.FindGameObjectWithTag("GameOverCanvas").GetComponent<CanvasGroup>();
+
+        GameObject.Find("Blackout").GetComponent<Image>().CrossFadeAlpha(0.0f, 0.75f, false);
+
         // audioSource.Play();
     }
     
@@ -41,7 +72,47 @@ public class GameLoopHandler : MonoBehaviour
             hp = 0;
             gameOver = true;
         }
+
+        if (!gameOver)
+        {
+            gameTime += Time.deltaTime;
+        }
+
+        float milliseconds =  Mathf.Floor((gameTime % 1.0f) * 1000.0f);
+        float seconds = Mathf.Floor(gameTime % 60.0f);
+        float minutes = Mathf.Floor(gameTime / 60.0f);
+
+        gameTimerText.text = minutes.ToString() + ":" + seconds.ToString("00") + ":" + milliseconds.ToString("0000");
+
+        if (gameOver)
+        {
+            gameOverCanvas.interactable = true;
+
+            if (timePostGameOver > delayPostGameOver)
+            {
+                fadeInAge += Time.deltaTime;
+                gameOverCanvas.alpha = Mathf.Lerp(0.0f, 1.0f, Mathf.Clamp(fadeInAge / fadeInLifespan, 0.0f, 1.0f));
+            }
+            else
+            {
+                timePostGameOver += Time.deltaTime;
+            }
+        }
     }
+
+    /*
+    void FixedUpdate()
+    {
+        if (gameOver)
+        {
+            gameOverScreen.SetActive(true);
+            for (float i = 0.000f; i < 1.0f; i += Time.fixedDeltaTime / 100)
+            {
+                StartCoroutine(IncreaseAlpha(i));
+            }
+        }
+    }
+    */
 
     public void TakeDamage()
     {
@@ -51,4 +122,20 @@ public class GameLoopHandler : MonoBehaviour
             splash.color = new Color(0.6f, 0.0f, 0.0f, 0.8f);
         }
     }
+
+    /*
+    IEnumerator IncreaseAlpha(float alpha)
+    {
+        foreach (var component in gameOverImageComponents)
+        {
+            component.color = new Color(component.color.r, component.color.g, component.color.b, alpha);
+            yield return null;
+        }
+        foreach (var component in textMeshProUguiComponents)
+        {
+            component.color = new Color(component.color.r, component.color.g, component.color.b, alpha);
+            yield return null;
+        }
+    }
+    */
 }
