@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class LinkVisualizer : MonoBehaviour
@@ -102,7 +101,7 @@ public class LinkVisualizer : MonoBehaviour
             {
                 line.enabled = false;
             }
-            
+
             i++;
         }
     }

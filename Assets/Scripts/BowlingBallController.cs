@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class BowlingBallController : MonoBehaviour
@@ -20,10 +17,10 @@ public class BowlingBallController : MonoBehaviour
 
     void Awake()
     {
-        #if UNITY_EDITOR
-            QualitySettings.vSyncCount = 0;  // VSync must be disabled
-            Application.targetFrameRate = 60;
-        #endif
+#if UNITY_EDITOR
+        QualitySettings.vSyncCount = 0;  // VSync must be disabled
+        Application.targetFrameRate = 60;
+#endif
     }
 
     void Start()

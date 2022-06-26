@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SpawnerController : MonoBehaviour
@@ -31,11 +29,8 @@ public class SpawnerController : MonoBehaviour
     Vector2 bottomright = new Vector2();
     float screenSafety = 32.0f;
     float playerSafety = 2.0f;
-    float spawnTime = 3.0f;
     GameLoopHandler gameLoopHandler;
     // public int currentLoop;
-    float gameTime = 0.0f;
-    float maxDifficulty = 3.0f * 60.0f;
 
     void Start()
     {
