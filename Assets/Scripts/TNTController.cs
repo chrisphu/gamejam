@@ -12,24 +12,38 @@ public class TNTController : MonoBehaviour
     ValidTargetHandler validTargetHandler;
     GameObject enemies;
     float killRadius = 2.5f;
-    float knockbackRadius = 25.0f;
     ScoreHandler scoreHandler;
     bool exploded = false;
     SpriteRenderer flash;
+    Rigidbody2D rb;
+    AudioSource explosionSound;
+    AudioSource sizzleSound;
+    bool sizzleStart = false;
+    float selfDestroyTime = 1.0f;
+    float timeAfterExplosion = 0.0f;
 
     void Start()
     {
+        rb = transform.GetComponent<Rigidbody2D>();
         sr = transform.GetComponent<SpriteRenderer>();
         validTargetHandler = GameObject.FindGameObjectWithTag("ValidTargetHandler").GetComponent<ValidTargetHandler>();
         enemies = GameObject.FindGameObjectWithTag("Enemies");
         scoreHandler = GameObject.FindGameObjectWithTag("ScoreHandler").GetComponent<ScoreHandler>();
         flash = transform.GetChild(0).GetComponent<SpriteRenderer>();
+        explosionSound = transform.GetComponent<AudioSource>();
+        sizzleSound = transform.GetChild(1).GetComponent<AudioSource>();
     }
 
     void Update()
     {
         if (state == 1)
         {
+            if (!sizzleStart)
+            {
+                sizzleStart = true;
+                sizzleSound.Play();
+            }
+
             if (time > delay)
             {
                 state = 2;
@@ -50,6 +64,8 @@ public class TNTController : MonoBehaviour
         }
         else if (state == 2)
         {
+            rb.bodyType = RigidbodyType2D.Static;
+
             if (!exploded)
             {
                 exploded = true;
@@ -57,10 +73,15 @@ public class TNTController : MonoBehaviour
             }
 
             flash.color = new Color(1.0f, 1.0f, 1.0f, Mathf.Lerp(flash.color.a, 0.0f, 0.9f * Time.fixedDeltaTime * 5.0f));
-        }
-        else if (state == 3)
-        {
-            validTargetHandler.DestroyObjAndJoints(gameObject);
+
+            if (timeAfterExplosion > selfDestroyTime)
+            {
+                validTargetHandler.DestroyObjAndJoints(gameObject);
+            }
+            else
+            {
+                timeAfterExplosion += Time.fixedDeltaTime;
+            }
         }
     }
 
@@ -73,6 +94,9 @@ public class TNTController : MonoBehaviour
     {
         sr.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
         flash.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+        sizzleSound.Stop();
+        explosionSound.Play();
+        Destroy(transform.GetComponent<BoxCollider2D>());
 
         foreach (Transform enemy in enemies.GetComponentInChildren<Transform>())
         {
