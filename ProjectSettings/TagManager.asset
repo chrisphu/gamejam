@@ -23,6 +23,7 @@ TagManager:
   - Quit
   - Timer
   - GameOverCanvas
+  - Retry
   layers:
   - Default
   - TransparentFX

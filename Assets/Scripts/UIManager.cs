@@ -20,6 +20,12 @@ public class UIManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         Application.Quit();
     }
 
+    public void Retry()
+    {
+        GameObject.Find("Blackout").GetComponent<Image>().CrossFadeAlpha(1.0f, 0.75f, false);
+        StartCoroutine(WaitForFade());
+    }
+
     public void OnPointerEnter(PointerEventData eventData)
     {
         Button startButton = GameObject.Find("Start").GetComponent<Button>();
@@ -40,5 +46,12 @@ public class UIManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         Button quitButton = GameObject.Find("Quit").GetComponent<Button>();
         startButton.GetComponentInChildren<TextMeshProUGUI>().text = "Start";
         quitButton.GetComponentInChildren<TextMeshProUGUI>().text = "Quit";
+    }
+
+    IEnumerator WaitForFade()
+    {
+        yield return new WaitForSeconds(0.75f);
+
+        StartGame();
     }
 }
