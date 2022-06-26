@@ -446,6 +446,56 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &442975866
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 442975868}
+  - component: {fileID: 442975867}
+  m_Layer: 0
+  m_Name: SpawnerController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &442975867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 442975866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2b70bec41f95b245a08fe636f30e0dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  basicEnemy: {fileID: 8502699092796766873, guid: 500dea13a3d711e49a1cf3b5be939a9a, type: 3}
+  spawner: {fileID: 315915526091639900, guid: 0b903071d1dda1b4499cfd7d7ab11830, type: 3}
+  tnt: {fileID: 125084000909359051, guid: 25df2a2b6b6c57b43a94ec61aaece915, type: 3}
+  bowlingBall: {fileID: 8308714836414796678, guid: 6839b3f290fbdeb43b939c59e2822283, type: 3}
+  blackHole: {fileID: 5638389180305161947, guid: 63f2c495a0607ff4fa69cdc6860742ae, type: 3}
+  currentLoop: 0
+--- !u!4 &442975868
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 442975866}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.1003144, y: 2.896729, z: -0.35710937}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &495540721
 GameObject:
   m_ObjectHideFlags: 0
@@ -977,7 +1027,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 932060666}
-  - component: {fileID: 932060667}
   m_Layer: 0
   m_Name: Enemies
   m_TagString: Enemies
@@ -1000,19 +1049,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &932060667
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 932060665}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a2b70bec41f95b245a08fe636f30e0dd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spawnObject: {fileID: 8502699092796766873, guid: 500dea13a3d711e49a1cf3b5be939a9a, type: 3}
 --- !u!1 &1485043736
 GameObject:
   m_ObjectHideFlags: 0
@@ -1298,7 +1334,7 @@ GameObject:
   m_TagString: ScoreHandler
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!114 &1949716061
 MonoBehaviour:

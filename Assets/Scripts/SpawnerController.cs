@@ -64,7 +64,7 @@ public class SpawnerController : MonoBehaviour
                     spawnPoint = Vector2.Lerp(upperleft, bottomleft, Random.Range(0.0f, 1.0f));
                 }
 
-                Instantiate(basicEnemy, spawnPoint, Quaternion.identity, transform);
+                Instantiate(basicEnemy, spawnPoint, Quaternion.identity, GameObject.Find("Enemies").transform);
             }
             if (currentTime / currentLoop > spawnTime * 5)
             {
