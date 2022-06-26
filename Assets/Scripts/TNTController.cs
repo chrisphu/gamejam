@@ -7,7 +7,7 @@ public class TNTController : MonoBehaviour
     int state = 0;
     float delay = 5.0f;
     float time = 0.0f;
-    float blinkRate = 0.25f;
+    float blinkRate = 0.5f;
     SpriteRenderer sr;
     ValidTargetHandler validTargetHandler;
     GameObject enemies;
@@ -21,6 +21,15 @@ public class TNTController : MonoBehaviour
     bool sizzleStart = false;
     float selfDestroyTime = 1.0f;
     float timeAfterExplosion = 0.0f;
+    public bool externalControl = false;
+
+    void Awake()
+    {
+        #if UNITY_EDITOR
+            QualitySettings.vSyncCount = 0;  // VSync must be disabled
+            Application.targetFrameRate = 60;
+        #endif
+    }
 
     void Start()
     {
@@ -37,54 +46,62 @@ public class TNTController : MonoBehaviour
         sizzleSound = transform.GetChild(1).GetComponent<AudioSource>();
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        if (state == 1)
+        if (!externalControl)
         {
-            if (!sizzleStart)
+            if (state == 1)
             {
-                sizzleStart = true;
-                sizzleSound.Play();
-            }
-
-            if (time > delay)
-            {
-                state = 2;
-            }
-            else
-            {
-                time += Time.fixedDeltaTime;
-
-                if (time % blinkRate < blinkRate / 2.0f)
+                if (!sizzleStart)
                 {
-                    sr.color = Color.red;
+                    sizzleStart = true;
+                    sizzleSound.Play();
+                }
+
+                if (time > delay)
+                {
+                    state = 2;
                 }
                 else
                 {
-                    sr.color = Color.white;
+                    time += Time.fixedDeltaTime;
+
+                    if (time % blinkRate < blinkRate / 2.0f)
+                    {
+                        sr.color = Color.red;
+                    }
+                    else
+                    {
+                        sr.color = Color.white;
+                    }
+                }
+            }
+            else if (state == 2)
+            {
+                rb.bodyType = RigidbodyType2D.Static;
+
+                if (!exploded)
+                {
+                    exploded = true;
+                    KillAndKnockback();
+                }
+
+                flash.color = new Color(1.0f, 1.0f, 1.0f, Mathf.Lerp(flash.color.a, 0.0f, 0.9f * Time.fixedDeltaTime * 5.0f));
+
+                if (timeAfterExplosion > selfDestroyTime)
+                {
+                    validTargetHandler.DestroyObjAndJoints(gameObject);
+                }
+                else
+                {
+                    timeAfterExplosion += Time.fixedDeltaTime;
                 }
             }
         }
-        else if (state == 2)
+        else
         {
-            rb.bodyType = RigidbodyType2D.Static;
-
-            if (!exploded)
-            {
-                exploded = true;
-                KillAndKnockback();
-            }
-
-            flash.color = new Color(1.0f, 1.0f, 1.0f, Mathf.Lerp(flash.color.a, 0.0f, 0.9f * Time.fixedDeltaTime * 5.0f));
-
-            if (timeAfterExplosion > selfDestroyTime)
-            {
-                validTargetHandler.DestroyObjAndJoints(gameObject);
-            }
-            else
-            {
-                timeAfterExplosion += Time.fixedDeltaTime;
-            }
+            sizzleSound.Stop();
+            sr.color = Color.white;
         }
     }
 

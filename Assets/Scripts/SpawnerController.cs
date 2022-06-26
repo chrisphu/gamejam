@@ -7,7 +7,9 @@ public class SpawnerController : MonoBehaviour
     Camera mainCamera;
 
     public GameObject[] spawnables;
-    public float[] spawnTimes;
+    public float[] startSpawnTimes;
+    public float[] endSpawnTimes;
+    float[] iterSpawnTimes;
     float[] currentTimes;
     public bool[] isEnemy;
 
@@ -27,10 +29,13 @@ public class SpawnerController : MonoBehaviour
     Vector2 upperright = new Vector2();
     Vector2 bottomleft = new Vector2();
     Vector2 bottomright = new Vector2();
-    float safety = 32.0f;
+    float screenSafety = 32.0f;
+    float playerSafety = 2.0f;
     float spawnTime = 3.0f;
     GameLoopHandler gameLoopHandler;
     // public int currentLoop;
+    float gameTime = 0.0f;
+    float maxDifficulty = 3.0f * 60.0f;
 
     void Start()
     {
@@ -43,7 +48,8 @@ public class SpawnerController : MonoBehaviour
         enemies = GameObject.FindGameObjectWithTag("Enemies");
         tools = GameObject.FindGameObjectWithTag("Tools");
 
-        currentTimes = new float[spawnTimes.Length];
+        currentTimes = new float[startSpawnTimes.Length];
+        iterSpawnTimes = new float[startSpawnTimes.Length];
     }
 
     void FixedUpdate()
@@ -52,11 +58,15 @@ public class SpawnerController : MonoBehaviour
         {
             UpdateScreenCorners();
 
+            gameTime += Time.fixedDeltaTime;
+
+            InterpolateSpawnTimes();
+
             for (int i = 0; i < currentTimes.Length; i++)
             {
                 currentTimes[i] += Time.fixedDeltaTime;
 
-                if (currentTimes[i] > spawnTimes[i])
+                if (currentTimes[i] > iterSpawnTimes[i])
                 {
                     Vector2 spawnPoint;
                     Transform spawnParent;
@@ -68,11 +78,18 @@ public class SpawnerController : MonoBehaviour
                     }
                     else
                     {
-                        spawnPoint = new Vector2(Random.Range(-31.0f, 31.0f), Random.Range(-31.0f, 31.0f));
+                        spawnPoint = new Vector2(Random.Range(-22.0f, 22.0f), Random.Range(-22.0f, 22.0f));
                         spawnParent = tools.transform;
                     }
 
-                    Instantiate(spawnables[i], spawnPoint, Quaternion.identity, spawnParent);
+                    GameObject newInstance = Instantiate(spawnables[i], spawnPoint, Quaternion.identity, spawnParent);
+
+                    Vector3 difference = newInstance.transform.position - player.transform.position;
+
+                    if (difference.magnitude < playerSafety)
+                    {
+                        newInstance.transform.position += difference * playerSafety;
+                    }
 
                     currentTimes[i] = 0.0f;
                 }
@@ -82,10 +99,10 @@ public class SpawnerController : MonoBehaviour
 
     void UpdateScreenCorners()
     {
-        bottomleft = mainCamera.ScreenToWorldPoint(new Vector2(-safety, -safety));
-        upperleft = mainCamera.ScreenToWorldPoint(new Vector2(-safety, Screen.height + safety));
-        bottomright = mainCamera.ScreenToWorldPoint(new Vector2(Screen.width + safety, -safety));
-        upperright = mainCamera.ScreenToWorldPoint(new Vector2(Screen.width + safety, Screen.height + safety));
+        bottomleft = mainCamera.ScreenToWorldPoint(new Vector2(-screenSafety, -screenSafety));
+        upperleft = mainCamera.ScreenToWorldPoint(new Vector2(-screenSafety, Screen.height + screenSafety));
+        bottomright = mainCamera.ScreenToWorldPoint(new Vector2(Screen.width + screenSafety, -screenSafety));
+        upperright = mainCamera.ScreenToWorldPoint(new Vector2(Screen.width + screenSafety, Screen.height + screenSafety));
     }
 
     Vector2 RandomSpawnAroundCamera()
@@ -111,5 +128,13 @@ public class SpawnerController : MonoBehaviour
         }
 
         return spawnPoint;
+    }
+
+    void InterpolateSpawnTimes()
+    {
+        for (int i = 0; i < iterSpawnTimes.Length; i++)
+        {
+            iterSpawnTimes[i] = Mathf.Lerp(startSpawnTimes[i], endSpawnTimes[i], Mathf.Clamp(gameTime / maxDifficulty, 0.0f, 1.0f));
+        }
     }
 }

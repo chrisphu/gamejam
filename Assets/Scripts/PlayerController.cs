@@ -41,8 +41,12 @@ public class PlayerController : MonoBehaviour
             int ver = Convert.ToInt16(Input.GetKey(upMove)) - Convert.ToInt16(Input.GetKey(downMove));
 
             // rb.MovePosition(rb.position + new Vector2(hor, ver).normalized * speed * Time.fixedDeltaTime);
+            /*
             rb.velocity = new Vector2(hor, ver).normalized * speed * (1.0f - residualVelocity.magnitude / bounceSpeed) + residualVelocity;
             residualVelocity = Vector2.Lerp(residualVelocity, new Vector2(), 0.9f * Time.fixedDeltaTime * 2.5f);
+            */
+
+            rb.velocity = new Vector2(hor, ver).normalized * speed;
 
             // flip player based on mouse position
             sr.flipX = (Input.mousePosition.x < Screen.width / 2.0f);

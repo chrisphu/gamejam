@@ -9,16 +9,17 @@ public class WandererController : MonoBehaviour
     float speed = 2.0f;
     float safety = 0.1f;
     Vector2 residualVelocity = new Vector2();
-    float bounceSpeed = 3.5f;
+    float bounceSpeed = 5.0f;
     GameLoopHandler gameLoopHandler;
     SpriteRenderer sr;
     public bool externalControl = false;
+    float maxColorDifference = 90.0f;
 
     void Awake ()
     {
         #if UNITY_EDITOR
             QualitySettings.vSyncCount = 0;  // VSync must be disabled
-            Application.targetFrameRate = 45;
+            Application.targetFrameRate = 60;
         #endif
     }
 
@@ -28,6 +29,13 @@ public class WandererController : MonoBehaviour
         rb = transform.GetComponent<Rigidbody2D>();
         player = GameObject.FindGameObjectWithTag("Player");
         sr = transform.GetComponent<SpriteRenderer>();
+
+        // randomize color slightly
+        sr.color = new Color(
+            (255.0f + Random.Range(-maxColorDifference, 0.0f)) / 255.0f,
+            (255.0f + Random.Range(-maxColorDifference, 0.0f)) / 255.0f,
+            (255.0f + Random.Range(-maxColorDifference, 0.0f)) / 255.0f,
+            1.0f);
     }
 
     void FixedUpdate()

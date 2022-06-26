@@ -53,10 +53,20 @@ public class BulletController : MonoBehaviour
             }
 
             // check if TNT
-            if (hit.collider.GetComponent<TNTController>() != null)
+            if (hit.collider.GetComponent<TNTController>() is TNTController tntController)
             {
-                hit.collider.GetComponent<TNTController>().ExplodeTNT();
+                tntController.ExplodeTNT();
             }
+
+            if (hit.collider.GetComponent<EnemySpawnController>() is EnemySpawnController enemySpawnController)
+            {
+                Rigidbody2D rb = hit.collider.GetComponent<Rigidbody2D>();
+                rb.bodyType = RigidbodyType2D.Dynamic;
+                rb.mass = 5;
+                enemySpawnController.isKinematic = false;
+            }
+
+            // check if enemy spawner
 
             Destroy(gameObject);
         }

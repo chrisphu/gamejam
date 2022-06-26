@@ -8,7 +8,7 @@ public class JointLifespanManager : MonoBehaviour
     public JointLifespanManager manager;
     public float lifespan = 30.0f;
     float age = 0.0f;
-    float speed = 5.0f;
+    float speed = 10.0f;
 
     void FixedUpdate()
     {
@@ -25,7 +25,17 @@ public class JointLifespanManager : MonoBehaviour
         {
             if (joint != null)
             {
-                joint.distance -= speed * Time.fixedDeltaTime;
+                if (joint.enabled)
+                {
+                    if (joint.CompareTag("BlackHole"))
+                    {
+                        joint.distance -= speed * Time.fixedDeltaTime * 2.0f;
+                    }
+                    else
+                    {
+                        joint.distance -= speed * Time.fixedDeltaTime;
+                    }
+                }
             }
             age += Time.fixedDeltaTime;
         }

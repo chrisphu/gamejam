@@ -64,30 +64,41 @@ public class ShootingController : MonoBehaviour
             {
                 transform.GetComponent<DistanceJoint2D>().connectedBody = null;
 
-                // don't really need to check but good safety
-                if (validTargetHandler.CheckIfTargetValue(object1, object2))
+                if (!object1.CompareTag("BlackHole") || !object2.CompareTag("BlackHole"))
                 {
-                    DistanceJoint2D newJoint = object1.AddComponent<DistanceJoint2D>();
-                    newJoint.connectedBody = object2.GetComponent<Rigidbody2D>();
-                    newJoint.maxDistanceOnly = true;
-                    newJoint.enableCollision = true;
-                    newJoint.autoConfigureDistance = false;
-                    newJoint.distance = (object1.transform.position - object2.transform.position).magnitude;
+                    // blackhole always object 1
+                    if (object2.CompareTag("BlackHole"))
+                    {
+                        GameObject tempObject = object1;
+                        object1 = object2;
+                        object2 = tempObject;
+                    }
 
-                    JointLifespanManager newManager = object1.AddComponent<JointLifespanManager>();
-                    newManager.joint = newJoint;
-                    newManager.lifespan = 30.0f;
-                    newManager.manager = newManager;
+                    // don't really need to check but good safety
+                    if (validTargetHandler.CheckIfTargetValue(object1, object2))
+                    {
+                        DistanceJoint2D newJoint = object1.AddComponent<DistanceJoint2D>();
+                        newJoint.connectedBody = object2.GetComponent<Rigidbody2D>();
+                        newJoint.maxDistanceOnly = true;
+                        newJoint.enableCollision = true;
+                        newJoint.autoConfigureDistance = false;
+                        newJoint.distance = (object1.transform.position - object2.transform.position).magnitude;
 
-                    // dummy joint for counting connections
-                    DistanceJoint2D newDummyJoint = object2.AddComponent<DistanceJoint2D>();
-                    newDummyJoint.connectedBody = object1.GetComponent<Rigidbody2D>();
-                    newDummyJoint.enabled = false;
+                        JointLifespanManager newManager = object1.AddComponent<JointLifespanManager>();
+                        newManager.joint = newJoint;
+                        newManager.lifespan = 30.0f;
+                        newManager.manager = newManager;
 
-                    JointLifespanManager newDummyManager = object2.AddComponent<JointLifespanManager>();
-                    newDummyManager.joint = newDummyJoint;
-                    newDummyManager.lifespan = 30.0f;
-                    newDummyManager.manager = newDummyManager;
+                        // dummy joint for counting connections
+                        DistanceJoint2D newDummyJoint = object2.AddComponent<DistanceJoint2D>();
+                        newDummyJoint.connectedBody = object1.GetComponent<Rigidbody2D>();
+                        newDummyJoint.enabled = false;
+
+                        JointLifespanManager newDummyManager = object2.AddComponent<JointLifespanManager>();
+                        newDummyManager.joint = newDummyJoint;
+                        newDummyManager.lifespan = 30.0f;
+                        newDummyManager.manager = newDummyManager;
+                    }
                 }
 
                 object1 = null;

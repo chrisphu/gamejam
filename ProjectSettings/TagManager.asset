@@ -17,6 +17,8 @@ TagManager:
   - ScoreHandler
   - Tools
   - Wall
+  - Enemy
+  - BlackHole
   layers:
   - Default
   - TransparentFX
