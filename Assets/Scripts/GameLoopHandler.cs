@@ -8,6 +8,7 @@ public class GameLoopHandler : MonoBehaviour
     TMP_Text hpText;
     public int hp = 3;
     Image splash;
+    AudioHandler audioHandler;
 
     /*
     GameObject gameOverScreen;
@@ -39,7 +40,8 @@ public class GameLoopHandler : MonoBehaviour
         hpText = GameObject.FindGameObjectWithTag("HP").GetComponent<TMP_Text>();
         gameTimerText = GameObject.FindGameObjectWithTag("Timer").GetComponent<TMP_Text>();
         splash = GameObject.FindGameObjectWithTag("Splash").GetComponent<Image>();
-
+        audioHandler = GameObject.FindGameObjectWithTag("AudioHandler").GetComponent<AudioHandler>();
+        
         /*
         gameOverScreen = GameObject.Find("GameOver");
         gameOverImageComponents = gameOverScreen.GetComponentsInChildren<Image>();
@@ -50,8 +52,7 @@ public class GameLoopHandler : MonoBehaviour
         gameOverCanvas = GameObject.FindGameObjectWithTag("GameOverCanvas").GetComponent<CanvasGroup>();
 
         GameObject.Find("Blackout").GetComponent<Image>().CrossFadeAlpha(0.0f, 0.75f, false);
-
-        // audioSource.Play();
+        audioHandler.FadeMusicIn();
     }
 
     void LateUpdate()
@@ -63,7 +64,12 @@ public class GameLoopHandler : MonoBehaviour
         if (hp <= 0)
         {
             hp = 0;
-            gameOver = true;
+
+            if (!gameOver)
+            {
+                gameOver = true;
+                audioHandler.FadeMusicOut();
+            }
         }
 
         if (!gameOver)

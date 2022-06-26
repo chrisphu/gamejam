@@ -3,14 +3,33 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class UIManager : MonoBehaviour//, IPointerEnterHandler, IPointerExitHandler
+public class UIManager : MonoBehaviour  // , IPointerEnterHandler, IPointerExitHandler
 {
+    /*
+    Button startButton;
+    Button quitButton;
+
+    void Start()
+    {
+        startButton = GameObject.FindGameObjectWithTag("Start").GetComponent<Button>();
+        quitButton = GameObject.FindGameObjectWithTag("Quit").GetComponent<Button>();
+    }
+    */
 
     public void StartGame()
     {
         SceneManager.LoadScene("MainLoop");
     }
 
+    public void StartGameWithFade()
+    {
+        if (transform.GetComponent<FadeMainMenu>() is FadeMainMenu fadeMainMenu)
+        {
+            fadeMainMenu.FadeOut();
+        }
+        StartCoroutine(WaitForFade());
+    }
+    
     public void QuitGame()
     {
         Application.Quit();
@@ -22,35 +41,40 @@ public class UIManager : MonoBehaviour//, IPointerEnterHandler, IPointerExitHand
         StartCoroutine(WaitForFade());
     }
 
-    //public void OnPointerEnter(PointerEventData eventData)
-    //{
-    //    Button startButton = GameObject.Find("Start").GetComponent<Button>();
-    //    Button quitButton = GameObject.Find("Quit").GetComponent<Button>();
-    //    if (eventData.hovered.Where(x => x.CompareTag("Start")).Any())
-    //    {
-    //        startButton.GetComponentInChildren<TextMeshProUGUI>().text = "KILL";
-    //        eventData.Reset();
-    //    }
-    //    if (eventData.hovered.Where(x => x.CompareTag("Quit")).Any())
-    //    {
-    //        quitButton.GetComponentInChildren<TextMeshProUGUI>().text = ":(";
-    //        eventData.Reset();
-    //    }
-    //}
+    /*
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        print(eventData.pointerCurrentRaycast.gameObject.name);
 
-    //public void OnPointerExit(PointerEventData eventData)
-    //{
-    //    Button startButton = GameObject.Find("Start").GetComponent<Button>();
-    //    Button quitButton = GameObject.Find("Quit").GetComponent<Button>();
-    //    startButton.GetComponentInChildren<TextMeshProUGUI>().text = "Start";
-    //    quitButton.GetComponentInChildren<TextMeshProUGUI>().text = "Quit";
-    //    eventData.Reset();
-    //}
+        if (eventData.pointerCurrentRaycast.gameObject.CompareTag("StartPanel"))
+        {
+            startButton.GetComponentInChildren<TextMeshProUGUI>().text = "KILL";
+        }
+        else if (eventData.pointerCurrentRaycast.gameObject.CompareTag("QuitPanel"))
+        {
+            quitButton.GetComponentInChildren<TextMeshProUGUI>().text = ":(";
+        }
+
+        if (eventData.hovered.FirstOrDefault().CompareTag("Start"))
+        {
+            startButton.GetComponentInChildren<TextMeshProUGUI>().text = "KILL";
+        }
+        if (eventData.hovered.FirstOrDefault().CompareTag("Quit"))
+        {
+            quitButton.GetComponentInChildren<TextMeshProUGUI>().text = ":(";
+        }
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        startButton.GetComponentInChildren<TextMeshProUGUI>().text = "Start";
+        quitButton.GetComponentInChildren<TextMeshProUGUI>().text = "Quit";
+    }
+    */
 
     IEnumerator WaitForFade()
     {
         yield return new WaitForSeconds(0.75f);
-
         StartGame();
     }
 }
