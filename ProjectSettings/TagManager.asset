@@ -7,7 +7,6 @@ TagManager:
   - Bullets
   - AmmoCount
   - ValidTargetHandler
-  - HolySquare
   - Linkable
   - Score
   - ShieldBox
@@ -17,6 +16,9 @@ TagManager:
   - Splash
   - ScoreHandler
   - Tools
+  - Wall
+  - Enemy
+  - BlackHole
   - Start
   - Quit
   layers:
@@ -26,8 +28,8 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
+  - Player
+  - Wall
   - 
   - 
   - 

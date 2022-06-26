@@ -38,6 +38,13 @@ public class ValidTargetHandler : MonoBehaviour
 
     public void DestroyObjAndJoints(GameObject x)
     {
+        DestroyJoints(x);
+
+        Destroy(x);
+    }
+
+    public void DestroyJoints(GameObject x)
+    {
         foreach (DistanceJoint2D joint in x.GetComponents<DistanceJoint2D>())
         {
             if (joint.connectedBody != null)
@@ -53,7 +60,5 @@ public class ValidTargetHandler : MonoBehaviour
 
             Destroy(joint);
         }
-
-        Destroy(x);
     }
 }

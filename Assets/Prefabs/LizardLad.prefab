@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8502699092796766874}
   m_Layer: 0
   m_Name: LizardLad
-  m_TagString: Enemies
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -96,7 +96,7 @@ CapsuleCollider2D:
   m_GameObject: {fileID: 8502699092796766873}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 6200000, guid: 5756ab834cf433c4584ef7a474ace0a2, type: 2}
+  m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -136,3 +136,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d08a06f6aa993c4f94f5376d74dae88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  externalControl: 0
