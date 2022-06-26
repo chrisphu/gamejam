@@ -24,6 +24,7 @@ TagManager:
   - Timer
   - GameOverCanvas
   - Retry
+  - Pylon
   layers:
   - Default
   - TransparentFX
