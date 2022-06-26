@@ -13,7 +13,7 @@ public class BowlingBallController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        scoreHandler = GameObject.FindGameObjectsWithTag("ScoreHandler").FirstOrDefault().GetComponent<ScoreHandler>();
+        scoreHandler = GameObject.FindGameObjectWithTag("ScoreHandler").GetComponent<ScoreHandler>();
     }
 
     // Update is called once per frame

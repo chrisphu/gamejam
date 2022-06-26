@@ -34,12 +34,6 @@ public class SpawnerController : MonoBehaviour
         //frameCounter = 0;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        UpdateScreenCorners();
-    }
-
     void FixedUpdate()
     {
         if (!gameLoopHandler.gameOver)
@@ -72,15 +66,13 @@ public class SpawnerController : MonoBehaviour
 
                 Instantiate(basicEnemy, spawnPoint, Quaternion.identity, transform);
             }
-            if (currentTime / currentLoop > spawnTime * 6)
+            if (currentTime / currentLoop > spawnTime * 5)
             {
                 currentTime = 0.0f;
 
                 Instantiate(bowlingBall, new Vector2(Random.Range(-31, 31), Random.Range(-31, 31)), Quaternion.identity, GameObject.Find("Tools").transform);
                 Instantiate(tnt, new Vector2(Random.Range(-31, 31), Random.Range(-31, 31)), Quaternion.identity, GameObject.Find("Tools").transform);
-                var newBlackHole = Instantiate(blackHole, new Vector2(Random.Range(-31, 31), Random.Range(-31, 31)), Quaternion.identity, GameObject.Find("Tools").transform);
-                var newSpawner = Instantiate(spawner, new Vector2(newBlackHole.transform.position.x + Random.Range(4, 8), newBlackHole.transform.position.y + Random.Range(4, 8)), Quaternion.identity, GameObject.Find("Enemies").transform);
-                newSpawner.GetComponent<EnemySpawnController>().pointOfRotation = newBlackHole;
+                Instantiate(blackHole, new Vector2(Random.Range(-31, 31), Random.Range(-31, 31)), Quaternion.identity, GameObject.Find("Tools").transform);
             }
         }
     }
