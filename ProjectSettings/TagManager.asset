@@ -19,6 +19,8 @@ TagManager:
   - Wall
   - Enemy
   - BlackHole
+  - Start
+  - Quit
   layers:
   - Default
   - TransparentFX
