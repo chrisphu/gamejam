@@ -7,12 +7,31 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 
-public class UIManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class UIManager : MonoBehaviour  // , IPointerEnterHandler, IPointerExitHandler
 {
+    /*
+    Button startButton;
+    Button quitButton;
+
+    void Start()
+    {
+        startButton = GameObject.FindGameObjectWithTag("Start").GetComponent<Button>();
+        quitButton = GameObject.FindGameObjectWithTag("Quit").GetComponent<Button>();
+    }
+    */
 
     public void StartGame()
     {
         SceneManager.LoadScene("MainLoop");
+    }
+
+    public void StartGameWithFade()
+    {
+        if (transform.GetComponent<FadeMainMenu>() is FadeMainMenu fadeMainMenu)
+        {
+            fadeMainMenu.FadeOut();
+        }
+        StartCoroutine(WaitForFade());
     }
     
     public void QuitGame()
@@ -26,10 +45,20 @@ public class UIManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
         StartCoroutine(WaitForFade());
     }
 
+    /*
     public void OnPointerEnter(PointerEventData eventData)
     {
-        Button startButton = GameObject.Find("Start").GetComponent<Button>();
-        Button quitButton = GameObject.Find("Quit").GetComponent<Button>();
+        print(eventData.pointerCurrentRaycast.gameObject.name);
+
+        if (eventData.pointerCurrentRaycast.gameObject.CompareTag("StartPanel"))
+        {
+            startButton.GetComponentInChildren<TextMeshProUGUI>().text = "KILL";
+        }
+        else if (eventData.pointerCurrentRaycast.gameObject.CompareTag("QuitPanel"))
+        {
+            quitButton.GetComponentInChildren<TextMeshProUGUI>().text = ":(";
+        }
+
         if (eventData.hovered.FirstOrDefault().CompareTag("Start"))
         {
             startButton.GetComponentInChildren<TextMeshProUGUI>().text = "KILL";
@@ -42,16 +71,14 @@ public class UIManager : MonoBehaviour, IPointerEnterHandler, IPointerExitHandle
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        Button startButton = GameObject.Find("Start").GetComponent<Button>();
-        Button quitButton = GameObject.Find("Quit").GetComponent<Button>();
         startButton.GetComponentInChildren<TextMeshProUGUI>().text = "Start";
         quitButton.GetComponentInChildren<TextMeshProUGUI>().text = "Quit";
     }
+    */
 
     IEnumerator WaitForFade()
     {
         yield return new WaitForSeconds(0.75f);
-
         StartGame();
     }
 }
