@@ -27,6 +27,7 @@ TagManager:
   - StartPanel
   - QuitPanel
   - AudioHandler
+  - Pylon
   layers:
   - Default
   - TransparentFX

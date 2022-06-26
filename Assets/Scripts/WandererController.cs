@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class WandererController : MonoBehaviour
@@ -15,12 +13,12 @@ public class WandererController : MonoBehaviour
     public bool externalControl = false;
     float maxColorDifference = 90.0f;
 
-    void Awake ()
+    void Awake()
     {
-        #if UNITY_EDITOR
-            QualitySettings.vSyncCount = 0;  // VSync must be disabled
-            Application.targetFrameRate = 60;
-        #endif
+#if UNITY_EDITOR
+        QualitySettings.vSyncCount = 0;  // VSync must be disabled
+        Application.targetFrameRate = 60;
+#endif
     }
 
     void Start()
@@ -45,7 +43,7 @@ public class WandererController : MonoBehaviour
             if (!externalControl)
             {
                 Vector2 towardsPlayer = (player.transform.position - transform.position).normalized;
-                
+
                 rb.velocity = towardsPlayer * speed * (1.0f - residualVelocity.magnitude / bounceSpeed) + residualVelocity;
                 residualVelocity = Vector2.Lerp(residualVelocity, new Vector2(), 0.9f * Time.fixedDeltaTime * 2.5f);
 

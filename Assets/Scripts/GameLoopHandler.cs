@@ -1,13 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class GameLoopHandler : MonoBehaviour
 {
     public bool gameOver { get; private set; } = false;
-    GameObject player;
     TMP_Text hpText;
     public int hp = 3;
     Image splash;
@@ -30,17 +27,16 @@ public class GameLoopHandler : MonoBehaviour
     float fadeInLifespan = 1.0f;
     float fadeInAge = 0.0f;
 
-    void Awake ()
+    void Awake()
     {
-        #if UNITY_EDITOR
-            QualitySettings.vSyncCount = 0;  // VSync must be disabled
-            Application.targetFrameRate = 60;
-        #endif
+#if UNITY_EDITOR
+        QualitySettings.vSyncCount = 0;  // VSync must be disabled
+        Application.targetFrameRate = 60;
+#endif
     }
 
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
         hpText = GameObject.FindGameObjectWithTag("HP").GetComponent<TMP_Text>();
         gameTimerText = GameObject.FindGameObjectWithTag("Timer").GetComponent<TMP_Text>();
         splash = GameObject.FindGameObjectWithTag("Splash").GetComponent<Image>();
@@ -58,7 +54,7 @@ public class GameLoopHandler : MonoBehaviour
         GameObject.Find("Blackout").GetComponent<Image>().CrossFadeAlpha(0.0f, 0.75f, false);
         audioHandler.FadeMusicIn();
     }
-    
+
     void LateUpdate()
     {
         splash.color = new Color(splash.color.r, splash.color.g, splash.color.b, Mathf.Lerp(splash.color.a, 0.0f, 0.9f * Time.deltaTime * 10.0f));
@@ -81,7 +77,7 @@ public class GameLoopHandler : MonoBehaviour
             gameTime += Time.deltaTime;
         }
 
-        float milliseconds =  Mathf.Floor((gameTime % 1.0f) * 1000.0f);
+        float milliseconds = Mathf.Floor((gameTime % 1.0f) * 1000.0f);
         float seconds = Mathf.Floor(gameTime % 60.0f);
         float minutes = Mathf.Floor(gameTime / 60.0f);
 

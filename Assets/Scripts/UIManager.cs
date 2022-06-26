@@ -1,11 +1,7 @@
-using System.Linq;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using TMPro;
 
 public class UIManager : MonoBehaviour  // , IPointerEnterHandler, IPointerExitHandler
 {

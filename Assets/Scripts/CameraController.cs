@@ -1,18 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
     GameObject player;
-    Camera mainCamera;
     //float maxDistance = 2.0f;
     //float swayEffect = 1.0f;
 
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        mainCamera = transform.GetComponent<Camera>();
     }
 
     void LateUpdate()
