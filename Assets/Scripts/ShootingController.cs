@@ -67,13 +67,6 @@ public class ShootingController : MonoBehaviour
                 // don't really need to check but good safety
                 if (validTargetHandler.CheckIfTargetValue(object1, object2))
                 {
-                    if (object2.CompareTag("HolySquare"))
-                    {
-                        GameObject tempObject = object1;
-                        object1 = object2;
-                        object2 = tempObject;
-                    }
-
                     DistanceJoint2D newJoint = object1.AddComponent<DistanceJoint2D>();
                     newJoint.connectedBody = object2.GetComponent<Rigidbody2D>();
                     newJoint.maxDistanceOnly = true;

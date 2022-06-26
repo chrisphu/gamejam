@@ -7,7 +7,6 @@ TagManager:
   - Bullets
   - AmmoCount
   - ValidTargetHandler
-  - HolySquare
   - Linkable
   - Score
   - ShieldBox
