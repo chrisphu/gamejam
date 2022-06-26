@@ -56,6 +56,8 @@ public class GameLoopHandler : MonoBehaviour
 
         gameOverCanvas = GameObject.FindGameObjectWithTag("GameOverCanvas").GetComponent<CanvasGroup>();
 
+        GameObject.Find("Blackout").GetComponent<Image>().CrossFadeAlpha(0.0f, 0.75f, false);
+
         // audioSource.Play();
     }
     
