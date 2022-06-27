@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ShockAnimation : MonoBehaviour
 {
+    ScoreHandler scoreHandler;
     SpriteRenderer sr;
     float lifespan = 0.5f;
     float age = 0.0f;
@@ -19,6 +20,7 @@ public class ShockAnimation : MonoBehaviour
 
     void Start()
     {
+        scoreHandler = GameObject.FindGameObjectWithTag("ScoreHandler").GetComponent<ScoreHandler>();
         sr = transform.GetComponent<SpriteRenderer>();
 
         if (transform.GetComponent<WandererController>() != null)
@@ -31,6 +33,7 @@ public class ShockAnimation : MonoBehaviour
     {
         if (age > lifespan)
         {
+            scoreHandler.score++;
             Destroy(gameObject);
         }
         else

@@ -77,7 +77,7 @@ public class GameLoopHandler : MonoBehaviour
             gameTime += Time.deltaTime;
         }
 
-        float milliseconds = Mathf.Floor((gameTime % 1.0f) * 100.0f);
+        float milliseconds = Mathf.Floor((gameTime % 1.0f) * 1000.0f);
         float seconds = Mathf.Floor(gameTime % 60.0f);
         float minutes = Mathf.Floor(gameTime / 60.0f);
 
