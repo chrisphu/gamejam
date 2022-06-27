@@ -35,7 +35,9 @@ public class PylonController : MonoBehaviour
                 enemy.AddComponent<LensFlare>();
                 connections.Append(enemy);
                 GetListOfConnections(enemy);
-                Destroy(enemy);
+
+                // Destroy(enemy);
+                enemy.AddComponent<ShockAnimation>();
             }
         }
     }
