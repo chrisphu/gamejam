@@ -7,7 +7,7 @@ public class MainMenuArtController : MonoBehaviour
 {
     RectTransform rectTransform;
     float speed = 2.0f;
-    float angle = 5.0f;
+    public float angle = 5.0f;
     float i;
 
     void Awake ()
