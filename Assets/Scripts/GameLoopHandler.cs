@@ -81,7 +81,7 @@ public class GameLoopHandler : MonoBehaviour
         float seconds = Mathf.Floor(gameTime % 60.0f);
         float minutes = Mathf.Floor(gameTime / 60.0f);
 
-        gameTimerText.text = minutes.ToString() + ":" + seconds.ToString("00") + ":" + milliseconds.ToString("0000");
+        gameTimerText.text = minutes.ToString() + ":" + seconds.ToString("00") + ":" + milliseconds.ToString("000");
 
         if (gameOver)
         {
